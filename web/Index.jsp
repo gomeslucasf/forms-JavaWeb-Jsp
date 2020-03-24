@@ -90,28 +90,28 @@ if(bSubmit != null)
                                     <div class="row">
                                         <div class="form-group col-3">
                                           <label for="pCodigo" class="">Codigo</label>
-                                          <input type="number" class="form-control" id="pCodigo" name="pCodigo" required >
+                                          <input type="number" class="form-control" id="pCodigo" name="pCodigo" value="<%= (pCodigo != null)?pCodigo:"" %>" required >
                                           
                                         </div>
                                         <div class="form-group col-9">
                                           <label for="pNome">Nome</label>
-                                          <input type="text" class="form-control" id="pNome" name="pNome" placeholder="Jose da Silva" required>
+                                          <input type="text" class="form-control" id="pNome" name="pNome" value="<%= (pNome != null)?pNome:"" %>" placeholder="Jose da Silva" required>
                                         </div>
                                         <div class="form-group col-6">
                                           <label for="pDataNasc" >Data de Nascimento</label>
-                                          <input type="date" class="form-control" id="pDataNasc" name="pDataNasc" required>
+                                          <input type="date" class="form-control" id="pDataNasc"  value="<%= (pDataNasc != null)?pDataNasc:"" %>" name="pDataNasc" required>
                                         </div>
                                         <div class="form-group col-6">
-                                          <label for="pCpf" >CPF</label>
-                                          <input type="text" class="form-control" id="pCpf" name="pCpf" placeholder="xxx.xxx.xxx-xx" required>
+                                          <label for="pCPF" >CPF</label>
+                                          <input type="text" class="form-control" id="pCPF" name="pCPF" value="<%= (pCPF != null)?pCPF:"" %>" placeholder="xxx.xxx.xxx-xx" required>
                                         </div>
                                         <div class="form-group col-12">
                                           <label for="pNomeMae" >Nome da Mãe </label>
-                                          <input type="text" class="form-control" id="pNomeMae" name="pNomeMae" required placeholder="Maria da Silva">
+                                          <input type="text" class="form-control" id="pNomeMae" name="pNomeMae" value="<%= (pMae != null)?pMae:"" %>" required placeholder="Maria da Silva">
                                         </div>
                                         <div class="form-group col-12">
                                           <label for="pNomePai" >Nome do Pai</label>
-                                          <input type="text" class="form-control" id="pNomePai" name="pNomePai" placeholder="Jose da Silva">
+                                          <input type="text" class="form-control" id="pNomePai" name="pNomePai" value="<%= (pPai != null)?pPai:"" %>" placeholder="Jose da Silva">
                                         </div>
                                         <div class="col-2">
                                         </div>
@@ -122,6 +122,10 @@ if(bSubmit != null)
                                         </div>
                                     </div>
                                 </div>
+                                <% for(String erro:erros){ %>
+                                    <%= erro %><br/>
+                                <% } %>
+
                           </form>
                             <label>Progresso</label>
                             <div class="progress">
@@ -132,33 +136,6 @@ if(bSubmit != null)
                 </div>
             </div>
         </div>
-=======
-    <body>
-        <form>
-        <label for="pCodigo">* Código:</label>
-        <input type="number" id="pCodigo" name="pCodigo" value="<%= (pCodigo != null)?pCodigo:"" %>" required/>
-        <br/>
-        <label for="pNome">* Nome:</label>
-        <input type="text" id="pNome" name="pNome" value="<%= (pNome != null)?pNome:"" %>" required/>
-        <br/>
-        <label for="pDataNasc">* Data de Nascimento:</label>
-        <input type="date" id="pDataNasc" name="pDataNasc" value="<%= (pDataNasc != null)?pDataNasc:"" %>" required/>
-        <br/>
-        <label for="pCPF">* CPF:</label>
-        <input type="text" id="pCPF" name="pCPF" value="<%= (pCPF != null)?pCPF:"" %>" required/>
-        <br/>
-        <label for="pPai">Pai:</label>
-        <input type="text" id="pPai" name="pPai" value="<%= (pPai != null)?pPai:"" %>"/>
-        <br/>
-        <label for="pMae">* Mãe:</label>
-        <input type="text" id="pMae" name="pMae" value="<%= (pMae != null)?pMae:"" %>" required/>
-        <br/>
-        <input type="submit" name="bSubmit" value="Próximo"/>
-        </form>
-        <% for(String erro:erros){ %>
-            <%= erro %><br/>
-        <% } %>
->>>>>>> f2a6882a98b3a2491399b783ecb4f694b39ca2a6
     </body>
     
 </html>
