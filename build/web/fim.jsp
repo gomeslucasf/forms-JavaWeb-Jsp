@@ -3,8 +3,15 @@
     Created on : 24/03/2020, 12:13:47
     Author     : Gomes
 --%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Models.Pessoa"%>
+<%@page import="Models.ListaPessoas"%>
+<%
+    ListaPessoas listap = (ListaPessoas) session.getAttribute("listap");
+    if(listap == null)
+        response.sendRedirect("Index.jsp");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,7 +34,7 @@
                                 <div class="row">
                                     <div class="col-4"></div>
                                     <div class="col-6">
-                                        <h2>Lista de Clientes</h2>
+                                        <h2>Lista de Cadastros</h2>
                                     </div>
                                 </div>
                             </div>
@@ -36,31 +43,26 @@
                             <table class="table table-striped">
                                 <thead>
                                   <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">CPF</th>
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                  </tr>
-                                  <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry</td>
-                                    <td>the Bird</td>
-                                    <td>@twitter</td>
-                                  </tr>
+                                    <%
+                                    if(listap != null)
+                                    {           
+                                        for(Pessoa pessoa : listap.getPessoas())
+                                        {
+                                        %>
+                                      <tr>
+                                        <th scope="row"><%= pessoa.getCodigo()%></th>
+                                        <td><%= pessoa.getNome()%></td>
+                                        <td><%= pessoa.getCPF()%></td>
+                                      </tr>
+                                        <%
+                                        }
+                                    }%>
                                 </tbody>
                             </table>
                         </div>

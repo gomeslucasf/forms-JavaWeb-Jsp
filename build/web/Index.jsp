@@ -3,6 +3,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 ArrayList<String> erros = new ArrayList<String>();
+
 String bSubmit = request.getParameter("bSubmit");
 String pCodigo = request.getParameter("pCodigo");
 String pNome = request.getParameter("pNome");
@@ -14,6 +15,7 @@ String pMae = request.getParameter("pMae");
 if(bSubmit != null)
 {   
     Pessoa nPessoa = (Pessoa)session.getAttribute("nPessoa");
+
     if(nPessoa == null)
         nPessoa = new Pessoa();
     
@@ -53,7 +55,7 @@ if(bSubmit != null)
     if(erros.isEmpty())
     {
         session.setAttribute("nPessoa", nPessoa);
-        response.sendRedirect("/dois.jsp");
+        response.sendRedirect("localidade.jsp");
     }
 }
 %>
@@ -68,13 +70,16 @@ if(bSubmit != null)
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </head>
-<<<<<<< HEAD
     <body style="background-color: #eeee">
         <div class="container">
             <div class="row justify-content-md-center p-5">
                 <div class="col-md-6 ">
                     <div class="panel bg p-3 mb-2 text-dark bg-light">
                         <div class="panel-header">
+                            <label>Progresso 1/3</label>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                             <div class="container">
                                 <div class="row">
                                     <div class="col-1"></div>
@@ -85,7 +90,7 @@ if(bSubmit != null)
                             </div>
                         </div>  
                         <div class="panel-body">
-                            <form action="localidade.jsp">
+                            <form action="Index.jsp">
                                 <div class="container">
                                     <div class="row">
                                         <div class="form-group col-3">
@@ -106,19 +111,19 @@ if(bSubmit != null)
                                           <input type="text" class="form-control" id="pCPF" name="pCPF" value="<%= (pCPF != null)?pCPF:"" %>" placeholder="xxx.xxx.xxx-xx" required>
                                         </div>
                                         <div class="form-group col-12">
-                                          <label for="pNomeMae" >Nome da Mãe </label>
-                                          <input type="text" class="form-control" id="pNomeMae" name="pNomeMae" value="<%= (pMae != null)?pMae:"" %>" required placeholder="Maria da Silva">
+                                          <label for="pMae" >Nome da Mãe </label>
+                                          <input type="text" class="form-control" id="pMae" name="pMae" value="<%= (pMae != null)?pMae:"" %>" required placeholder="Maria da Silva">
                                         </div>
                                         <div class="form-group col-12">
-                                          <label for="pNomePai" >Nome do Pai</label>
-                                          <input type="text" class="form-control" id="pNomePai" name="pNomePai" value="<%= (pPai != null)?pPai:"" %>" placeholder="Jose da Silva">
+                                          <label for="pPai" >Nome do Pai</label>
+                                          <input type="text" class="form-control" id="pPai" name="pPai" value="<%= (pPai != null)?pPai:"" %>" placeholder="Jose da Silva">
                                         </div>
                                         <div class="col-2">
                                         </div>
                                         <div class="col-7">
                                         </div>
                                         <div class="col-2">
-                                            <button  type="submit" class="btn btn-success mb-2 ">Enviar</button>
+                                            <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-success mb-2 ">Enviar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -127,10 +132,6 @@ if(bSubmit != null)
                                 <% } %>
 
                           </form>
-                            <label>Progresso</label>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
                         </div>
 
                 </div>

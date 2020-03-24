@@ -5,6 +5,27 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList" %>
+<%@page import="Models.Pessoa"%>
+<%@page import="Models.ListaPessoas" %>
+
+<%
+Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
+String bSubmit = request.getParameter("bSubmit");
+
+if(nPessoa == null)
+    response.sendRedirect("Index.jsp");
+
+if(bSubmit != null)
+{   
+    ListaPessoas listap = (ListaPessoas) session.getAttribute("listap");
+    if(listap == null)
+        listap = new ListaPessoas();
+
+    listap.getPessoas().add(nPessoa);
+    response.sendRedirect("fim.jsp");
+}
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,8 +44,11 @@
                 <div class="col-md-6 ">
                     <div class="panel bg p-3 mb-2 text-dark bg-light">
                         <div class="panel-header">
-                            
-                            <div class="container">
+                            <label>Progresso 3/3</label>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="container p-3">
                                 <div class="row">
                                     <div class="col-1"></div>
                                     <div class="col-10">
@@ -34,21 +58,35 @@
                             </div>
                         </div>  
                         <div class="panel-body">
+                            <form action="confirma.jsp">
                             <div class="row">
                                 <div class="col-12">
                                     <ul class="list-group">
-                                        <li class="list-group-item">Nome : </li>
-                                        <li class="list-group-item">Dados:</li>
-                                        <li class="list-group-item">Dados:</li>
-                                        <li class="list-group-item">Dados:</li>
-                                        <li class="list-group-item">Dados:</li>
+                                        <li class="list-group-item">Codigo  : <%= nPessoa.getCodigo()%></li>
+                                        <li class="list-group-item">Nome  : <%= nPessoa.getNome()%></li>
+                                        <li class="list-group-item">Data Nascimento : <%= nPessoa.getDataFormatada()  %> </li>
+                                        <li class="list-group-item">CPF : <%= nPessoa.getCPF() %> </li>
+                                        <li class="list-group-item">Mãe : <%= nPessoa.getMae() %></li>
+                                        <li class="list-group-item">Pai : <%= nPessoa.getPai() %></li>
+                                        <li class="list-group-item">Estado : <%= nPessoa.getEstado() %></li>
+                                        <li class="list-group-item">Cidade : <%= nPessoa.getCidade() %></li>
+                                        <li class="list-group-item">Bairro : <%= nPessoa.getBairro() %></li>
+                                        <li class="list-group-item">Rua : <%= nPessoa.getRua() %></li>
+                                        <li class="list-group-item">Nº : <%= nPessoa.getNumeroCasa() %></li>                                        
                                     </ul>
                                 </div>
+                                <div class="col-2 p-3">
+                                    <button id="bReset"  name="bReset" type="submit" class="btn btn-warning mb-2">Alterar</button>
+                                </div>
+                                <div class="col-7">
+                                </div>
+
+                                <div class="col-2 p-3">
+                                    <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-success mb-2 ">Concluir</button>
+                                </div>
+                                    
                             </div>
-                            <label class="p-3">Progresso</label>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 90%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
+                            </form>
                         </div>
 
                 </div>

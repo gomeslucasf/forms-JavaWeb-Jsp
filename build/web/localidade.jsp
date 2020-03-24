@@ -1,20 +1,57 @@
-<%-- 
-    Document   : localidade
-    Created on : 16/03/2020, 19:55:58
-    Author     : Gomes
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="Models.Pessoa"%>
 
-<%!
-    //class
-%>
 <%
-    //Codigo
+ArrayList<String> erros = new ArrayList<String>();
+
+String bSubmit = request.getParameter("bSubmit");
+String bReset = request.getParameter("bReset");
+String estado = request.getParameter("estado");
+String cidade = request.getParameter("cidade");
+String bairro = request.getParameter("bairro");
+String rua = request.getParameter("rua");
+String numero = request.getParameter("numero");
+
+if(bSubmit != null)
+{   
+    Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
+
+    if(nPessoa == null)
+        erros.add("Não existe a pessoa!");
     
-    if(session!=null){
-        
+    if(estado != null && !estado.isEmpty())
+        nPessoa.setEstado(estado);
+    else
+        erros.add("O estado precisa ser preenchido");
+    
+    if(cidade != null && !cidade.isEmpty())
+        nPessoa.setCidade(cidade);
+    else
+        erros.add("A Cidade precisa ser preenchido");
+    
+    if(bairro != null && !bairro.isEmpty())
+        nPessoa.setBairro(bairro);
+    else
+        erros.add("O Bairro precisa ser preenchido");
+    
+    if(rua != null && !rua.isEmpty())
+        nPessoa.setRua(rua);
+    else
+        erros.add("A Rua precisa ser preenchida");
+    
+    if(numero != null && !numero.isEmpty())
+        nPessoa.setNumeroCasa(Integer.parseInt(numero));
+    
+    if(erros.isEmpty())
+    {
+        session.setAttribute("nPessoa", nPessoa);
+        response.sendRedirect("confirma.jsp");
     }
+}
+if(bReset != null){
+
+}
 %>
 
 <!DOCTYPE html>
@@ -34,7 +71,10 @@
                 <div class="col-md-6 ">
                     <div class="panel bg p-3 mb-2 text-dark bg-light">
                         <div class="panel-header">
-                            
+                            <label>Progresso 2/3</label>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
                             <div class="container">
                                 <div class="row">
                                     <div class="col-1"></div>
@@ -45,12 +85,12 @@
                             </div>
                         </div>  
                         <div class="panel-body">
-                            <form>
+                            <form action="localidade.jsp">
                                 <div class="container">
                                     <div class="row">
                                         <div class="form-group col-3">
-                                          <label >Estado</label>
-                                          <select class="form-control" id="estado" name="estado" required>
+                                          <label for="estado" >Estado</label>
+                                          <select class="form-control" id="estado" name="estado" value="<%= (estado != null)?estado:"" %>" required>
                                                 <option value="AC">AC</option>
                                                 <option value="AL">AL</option>
                                                 <option value="AM">AM</option>
@@ -82,37 +122,34 @@
                                         </div>
                                         <div class="form-group col-9">
                                           <label >Cidade</label>
-                                          <input type="text" class="form-control" id="cidade"  name="cidade" placeholder="Presidente Prudente" required>
+                                          <input type="text" class="form-control" id="cidade"  name="cidade" placeholder="Presidente Prudente"  value="<%= (cidade != null)?cidade:"" %>" required>
                                         </div>
                                         <div class="form-group col-12">
                                           <label >Bairro</label>
-                                          <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Cidade Universitária" required>
+                                          <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Cidade Universitária" value="<%= (bairro != null)?bairro:"" %>" required>
                                         </div>
                                         <div class="form-group col-9">
                                           <label>Rua</label>
-                                          <input type="text" class="form-control" id="rua" name="rua" placeholder="Rua José Bongiovani" required>
+                                          <input type="text" class="form-control" id="rua" name="rua" placeholder="Rua José Bongiovani" value="<%= (rua != null)?rua:"" %>" required>
                                         </div>
                                         <div class="form-group col-3">
                                           <label >Nº</label>
-                                          <input type="number" class="form-control" id="numero"   name="numero" placeholder="700">
+                                          <input type="number" class="form-control" id="numero" name="numero" value="<%= (numero != null)?numero:"" %>" placeholder="700">
                                         </div>
                                         
                                         <div class="col-2">
-                                            <button type="" class="btn btn-primary mb-2">Cancelar</button>
+                                            <button id="bReset"  name="bReset" type="reset" class="btn btn-primary mb-2">Cancelar</button>
                                         </div>
                                         <div class="col-7">
                                         </div>
                                         
                                         <div class="col-2">
-                                            <button type="submit" class="btn btn-success mb-2 ">Enviar</button>
+                                            <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-success mb-2 ">Enviar</button>
                                         </div>
                                     </div>
                                 </div>
                           </form>
-                            <label>Progresso</label>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
+                            
                         </div>
 
                 </div>

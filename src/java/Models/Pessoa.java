@@ -5,12 +5,17 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Pessoa implements Serializable {
-    int codigo;
-    String nome;
-    String CPF;
-    String pai;
-    String mae;
-    LocalDate data_Nascimento;
+    private int codigo;
+    private String nome;
+    private String CPF;
+    private String pai;
+    private String mae;
+    private LocalDate data_Nascimento;
+    private String estado;
+    private String cidade;
+    private String bairro;
+    private String rua;
+    private int numeroCasa;
 
     public Pessoa() {
         setCodigo(0);
@@ -19,15 +24,25 @@ public class Pessoa implements Serializable {
         setMae("");
         setPai("");
         setData_Nascimento(LocalDate.now());
+        setEstado("");
+        setCidade("");
+        setBairro("");
+        setRua("");
+        setNumeroCasa(0);
     }
 
-    public Pessoa(int codigo, String nome, String CPF, String mae, LocalDate data_Nascimento) {
+    public Pessoa(int codigo, String nome, String CPF, String mae, LocalDate data_Nascimento, String estado, String cidade, String bairro, String rua, int numeroCasa) {
         this();
         setCodigo(codigo);
         setNome(nome);
         setCPF(CPF);
         setMae(mae);
         setData_Nascimento(data_Nascimento);
+        setEstado(estado);
+        setCidade(cidade);
+        setBairro(bairro);
+        setRua(rua);
+        setNumeroCasa(numeroCasa);
     }
     
 
@@ -82,5 +97,53 @@ public class Pessoa implements Serializable {
     
     public void setData_Nascimento(LocalDate data_Nascimento) {
         this.data_Nascimento = data_Nascimento;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public String getBairro() {
+        return bairro;
+    }
+
+    public String getRua() {
+        return rua;
+    }
+
+    public int getNumeroCasa() {
+        return numeroCasa;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
+    }
+
+    public void setRua(String rua) {
+        this.rua = rua;
+    }
+
+    public void setNumeroCasa(int numeroCasa) {
+        this.numeroCasa = numeroCasa;
+    }
+    
+    public String getDataFormatada(){
+
+        String pDataNasc = getData_Nascimento().toString();
+        String[] vetData = pDataNasc.split("-");
+        pDataNasc = vetData[2]+ "/" + vetData[1]+ "/" + vetData[0];
+        return pDataNasc;
     }
 }
