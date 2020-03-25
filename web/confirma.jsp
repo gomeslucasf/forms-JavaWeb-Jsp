@@ -7,7 +7,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList" %>
 <%@page import="Models.Pessoa"%>
-<%@page import="Models.ListaPessoas" %>
 
 <%
 Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
@@ -17,13 +16,20 @@ if(nPessoa == null)
     response.sendRedirect("Index.jsp");
 
 if(bSubmit != null)
-{   
-    ListaPessoas listap = (ListaPessoas) session.getAttribute("listap");
-    if(listap == null)
-        listap = new ListaPessoas();
+{
+    if(bSubmit.equals("OK"))
+    {   
+        ArrayList<Pessoa> listap = (ArrayList) session.getAttribute("listap");
+        if(listap == null)
+            listap = new ArrayList<Pessoa>();
 
-    listap.getPessoas().add(nPessoa);
-    response.sendRedirect("fim.jsp");
+        listap.add(nPessoa);
+        session.setAttribute("listap", listap);
+        response.sendRedirect("fim.jsp");
+    }
+    if(bSubmit.equals("alter")){
+        response.sendRedirect("localidade.jsp");   
+    }
 }
 %>
 <!DOCTYPE html>
@@ -76,13 +82,13 @@ if(bSubmit != null)
                                     </ul>
                                 </div>
                                 <div class="col-2 p-3">
-                                    <button id="bReset"  name="bReset" type="submit" class="btn btn-warning mb-2">Alterar</button>
+                                    <button id="bSubmit"  name="bSubmit" type="submit" value="alter" class="btn btn-warning mb-2">Alterar</button>
                                 </div>
                                 <div class="col-7">
                                 </div>
 
                                 <div class="col-2 p-3">
-                                    <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-success mb-2 ">Concluir</button>
+                                    <button id="bSubmit" name="bSubmit" type="submit" value="OK" class="btn btn-success mb-2 ">Concluir</button>
                                 </div>
                                     
                             </div>

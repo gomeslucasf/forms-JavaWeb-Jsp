@@ -6,11 +6,39 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Models.Pessoa"%>
-<%@page import="Models.ListaPessoas"%>
+
 <%
-    ListaPessoas listap = (ListaPessoas) session.getAttribute("listap");
+    ArrayList<Pessoa> listap = (ArrayList) session.getAttribute("listap");
+    Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
+
+    String bSubmit = request.getParameter("bSubmit");
+    String indexExcluir = request.getParameter("cod");
+
     if(listap == null)
         response.sendRedirect("Index.jsp");
+
+    //if(bExcluir.equals("OK")){
+
+if(bSubmit != null)
+{
+    if(bSubmit.equals("remove")){
+        if(indexExcluir != null && !indexExcluir.isEmpty()){
+            listap.remove(indexExcluir); 
+            session.setAttribute("listap", listap);
+        }
+    }
+    if(bSubmit.equals("clean")){
+        listap = null;
+        session.setAttribute("listap", listap);
+    }
+    
+    if(bSubmit.equals("new")){
+        nPessoa = new Pessoa();
+        session.setAttribute("nPessoa", nPessoa);
+        response.sendRedirect("Index.jsp");
+
+    }
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -39,34 +67,51 @@
                                 </div>
                             </div>
                         </div>  
-                        <div class="panel-body">
-                            <table class="table table-striped">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Código</th>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col">CPF</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                    <%
-                                    if(listap != null)
-                                    {           
-                                        for(Pessoa pessoa : listap.getPessoas())
-                                        {
-                                        %>
+                        <form action="fim.jsp">
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <thead>
                                       <tr>
-                                        <th scope="row"><%= pessoa.getCodigo()%></th>
-                                        <td><%= pessoa.getNome()%></td>
-                                        <td><%= pessoa.getCPF()%></td>
+                                        <th scope="col">Código</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">CPF</th>
+                                        <th scope="col">Ação</th>
                                       </tr>
+                                    </thead>
+                                    <tbody>
                                         <%
-                                        }
-                                    }%>
-                                </tbody>
-                            </table>
-                        </div>
+                                        if(listap != null)
+                                        {           
+                                            for(Pessoa pessoa : listap)
+                                            {
+                                            %>
+                                          <tr>
+                                            <th scope="row"><%= pessoa.getCodigo()%></th>
+                                            <td><%= pessoa.getNome()%></td>
+                                            <td><%= pessoa.getCPF()%></td>
+                                            <td>
+                                                <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-danger" value="remove">Excluir</button> 
+                                                <input type="hidden" id="cod" name="cod"  value="<%= listap.indexOf(pessoa)%>" >
+                                            </td>
+                                          </tr>
+                                            <%
+                                            }
+                                        }%>
+                                    </tbody>
+                                </table>
+                                <div class="row">
+                                    <div class="col-2 p-3">
+                                        <button id="bSubmit"  name="bSubmit" type="submit" value="clean" class="btn btn-warning mb-2">Limpar Tudo</button>
+                                    </div>
+                                    <div class="col-7">
+                                    </div>
 
+                                    <div class="col-2 p-3">
+                                        <button id="bSubmit" name="bSubmit" type="submit" value="new" class="btn btn-success mb-2 ">Novo Cadastro</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                 </div>
             </div>
         </div>

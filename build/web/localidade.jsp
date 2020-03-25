@@ -14,43 +14,55 @@ String rua = request.getParameter("rua");
 String numero = request.getParameter("numero");
 
 if(bSubmit != null)
-{   
-    Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
+{
+    if(bSubmit.equals("OK"))
+    {   
+        Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
 
-    if(nPessoa == null)
-        erros.add("Não existe a pessoa!");
-    
-    if(estado != null && !estado.isEmpty())
-        nPessoa.setEstado(estado);
-    else
-        erros.add("O estado precisa ser preenchido");
-    
-    if(cidade != null && !cidade.isEmpty())
-        nPessoa.setCidade(cidade);
-    else
-        erros.add("A Cidade precisa ser preenchido");
-    
-    if(bairro != null && !bairro.isEmpty())
-        nPessoa.setBairro(bairro);
-    else
-        erros.add("O Bairro precisa ser preenchido");
-    
-    if(rua != null && !rua.isEmpty())
-        nPessoa.setRua(rua);
-    else
-        erros.add("A Rua precisa ser preenchida");
-    
-    if(numero != null && !numero.isEmpty())
-        nPessoa.setNumeroCasa(Integer.parseInt(numero));
-    
-    if(erros.isEmpty())
-    {
-        session.setAttribute("nPessoa", nPessoa);
-        response.sendRedirect("confirma.jsp");
+        if(nPessoa == null)
+            erros.add("Não existe a pessoa!");
+
+        if(estado != null && !estado.isEmpty())
+            nPessoa.setEstado(estado);
+        else
+            erros.add("O estado precisa ser preenchido");
+
+        if(cidade != null && !cidade.isEmpty())
+            nPessoa.setCidade(cidade);
+        else
+            erros.add("A Cidade precisa ser preenchido");
+
+        if(bairro != null && !bairro.isEmpty())
+            nPessoa.setBairro(bairro);
+        else
+            erros.add("O Bairro precisa ser preenchido");
+
+        if(rua != null && !rua.isEmpty())
+            nPessoa.setRua(rua);
+        else
+            erros.add("A Rua precisa ser preenchida");
+
+        if(numero != null && !numero.isEmpty())
+            nPessoa.setNumeroCasa(Integer.parseInt(numero));
+
+        if(erros.isEmpty())
+        {
+            session.setAttribute("nPessoa", nPessoa);
+            response.sendRedirect("confirma.jsp");
+        }
     }
-}
-if(bReset != null){
+    if(bSubmit.equals("back") ){
+        response.sendRedirect("Index.jsp");
+    }
+    if(bSubmit.equals("alter")){
+        Pessoa nPessoa = (Pessoa)session.getAttribute("nPessoa");
 
+        estado = nPessoa.getEstado();
+        cidade = nPessoa.getCidade();
+        bairro = nPessoa.getBairro();
+        rua = nPessoa.getRua();
+        numero = Integer.toString(nPessoa.getNumeroCasa());
+    }
 }
 %>
 
@@ -138,13 +150,13 @@ if(bReset != null){
                                         </div>
                                         
                                         <div class="col-2">
-                                            <button id="bReset"  name="bReset" type="reset" class="btn btn-primary mb-2">Cancelar</button>
+                                            <button id="bSubmit"  name="bSubmit" type="submit" value="back" class="btn btn-primary mb-2">Cancelar</button>
                                         </div>
                                         <div class="col-7">
                                         </div>
                                         
                                         <div class="col-2">
-                                            <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-success mb-2 ">Enviar</button>
+                                            <button id="bSubmit" name="bSubmit" type="submit" value="OK" class="btn btn-success mb-2 ">Enviar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -155,5 +167,6 @@ if(bReset != null){
                 </div>
             </div>
         </div>
+
     </body>
 </html>

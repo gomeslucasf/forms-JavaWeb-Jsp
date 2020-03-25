@@ -13,49 +13,64 @@ String pPai = request.getParameter("pPai");
 String pMae = request.getParameter("pMae");
 
 if(bSubmit != null)
-{   
-    Pessoa nPessoa = (Pessoa)session.getAttribute("nPessoa");
+{
+    if(bSubmit.equals("OK"))
+    {   
+        Pessoa nPessoa = (Pessoa)session.getAttribute("nPessoa");
 
-    if(nPessoa == null)
-        nPessoa = new Pessoa();
-    
-    if(pCodigo != null && !pCodigo.isEmpty())
-        nPessoa.setCodigo(Integer.parseInt(pCodigo));
-    else
-        erros.add("O código precisa ser preenchido");
+        if(nPessoa == null)
+            nPessoa = new Pessoa();
 
-    
-    if(pNome != null && !pNome.isEmpty())
-        nPessoa.setNome(pNome);
-    else
-        erros.add("O nome precisa ser preenchido");
-    
-    if(pDataNasc != null && !pDataNasc.isEmpty())
-        try {
-            nPessoa.setData_Nascimento(pDataNasc);
-        } catch(Exception e) {
-            erros.add("A data de nascimento informada não é valida");
+        if(pCodigo != null && !pCodigo.isEmpty())
+            nPessoa.setCodigo(Integer.parseInt(pCodigo));
+        else
+            erros.add("O código precisa ser preenchido");
+
+
+        if(pNome != null && !pNome.isEmpty())
+            nPessoa.setNome(pNome);
+        else
+            erros.add("O nome precisa ser preenchido");
+
+        if(pDataNasc != null && !pDataNasc.isEmpty())
+            try {
+                nPessoa.setData_Nascimento(pDataNasc);
+            } catch(Exception e) {
+                erros.add("A data de nascimento informada não é valida");
+            }
+        else
+            erros.add("A data de nascimento precisa ser preenchida");
+
+        if(pCPF != null && !pCPF.isEmpty())
+            nPessoa.setCPF(pCPF);
+        else
+            erros.add("O CPF precisa ser preenchido");
+
+        if(pPai != null && !pPai.isEmpty())
+            nPessoa.setPai(pPai);
+
+        if(pMae != null && !pMae.isEmpty())
+            nPessoa.setMae(pMae);
+        else
+            erros.add("O nome da mãe precisa ser preenchido");
+
+        if(erros.isEmpty())
+        {
+            session.setAttribute("nPessoa", nPessoa);
+            response.sendRedirect("localidade.jsp");
         }
-    else
-        erros.add("A data de nascimento precisa ser preenchida");
-    
-    if(pCPF != null && !pCPF.isEmpty())
-        nPessoa.setCPF(pCPF);
-    else
-        erros.add("O CPF precisa ser preenchido");
-    
-    if(pPai != null && !pPai.isEmpty())
-        nPessoa.setPai(pPai);
-    
-    if(pMae != null && !pMae.isEmpty())
-        nPessoa.setMae(pMae);
-    else
-        erros.add("O nome da mãe precisa ser preenchido");
-    
-    if(erros.isEmpty())
-    {
-        session.setAttribute("nPessoa", nPessoa);
-        response.sendRedirect("localidade.jsp");
+    }
+    if(bSubmit.equals("back")){
+
+        Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
+        if(nPessoa != null){
+        pCodigo = Integer.toString(nPessoa.getCodigo());
+        pNome = nPessoa.getNome();
+        pDataNasc = nPessoa.getData_Nascimento().toString();
+        pCPF = nPessoa.getCPF();
+        pPai = nPessoa.getPai();
+        pMae = nPessoa.getMae();
+        }   
     }
 }
 %>
@@ -94,6 +109,7 @@ if(bSubmit != null)
                                 <div class="container">
                                     <div class="row">
                                         <div class="form-group col-3">
+                                            
                                           <label for="pCodigo" class="">Codigo</label>
                                           <input type="number" class="form-control" id="pCodigo" name="pCodigo" value="<%= (pCodigo != null)?pCodigo:"" %>" required >
                                           
@@ -123,7 +139,7 @@ if(bSubmit != null)
                                         <div class="col-7">
                                         </div>
                                         <div class="col-2">
-                                            <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-success mb-2 ">Enviar</button>
+                                            <button id="bSubmit" name="bSubmit" type="submit" value="OK" class="btn btn-success mb-2 ">Enviar</button>
                                         </div>
                                     </div>
                                 </div>
