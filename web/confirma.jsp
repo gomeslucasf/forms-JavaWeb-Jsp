@@ -12,24 +12,28 @@
 Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
 String bSubmit = request.getParameter("bSubmit");
 
-if(nPessoa == null)
+if(nPessoa != null){
+
+    if(bSubmit != null)
+    {
+        if(bSubmit.equals("OK"))
+        {   
+            ArrayList<Pessoa> listap = (ArrayList) session.getAttribute("listap");
+            if(listap == null)
+                listap = new ArrayList<Pessoa>();
+
+            listap.add(nPessoa);
+            session.setAttribute("listap", listap);
+            session.removeAttribute("nPessoa");
+            response.sendRedirect("fim.jsp");
+        }
+        if(bSubmit.equals("alter")){
+            response.sendRedirect("localidade.jsp");   
+        }
+    }
+}else{
     response.sendRedirect("Index.jsp");
-
-if(bSubmit != null)
-{
-    if(bSubmit.equals("OK"))
-    {   
-        ArrayList<Pessoa> listap = (ArrayList) session.getAttribute("listap");
-        if(listap == null)
-            listap = new ArrayList<Pessoa>();
-
-        listap.add(nPessoa);
-        session.setAttribute("listap", listap);
-        response.sendRedirect("fim.jsp");
-    }
-    if(bSubmit.equals("alter")){
-        response.sendRedirect("localidade.jsp");   
-    }
+    return;
 }
 %>
 <!DOCTYPE html>

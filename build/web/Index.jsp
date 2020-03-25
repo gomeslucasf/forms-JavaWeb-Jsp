@@ -1,5 +1,7 @@
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Random"%>
 <%@page import="Models.Pessoa"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 ArrayList<String> erros = new ArrayList<String>();
@@ -12,14 +14,17 @@ String pCPF = request.getParameter("pCPF");
 String pPai = request.getParameter("pPai");
 String pMae = request.getParameter("pMae");
 
+Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
+
 if(bSubmit != null)
 {
+
     if(bSubmit.equals("OK"))
     {   
-        Pessoa nPessoa = (Pessoa)session.getAttribute("nPessoa");
-
-        if(nPessoa == null)
+        if(nPessoa == null){
             nPessoa = new Pessoa();
+        }
+            
 
         if(pCodigo != null && !pCodigo.isEmpty())
             nPessoa.setCodigo(Integer.parseInt(pCodigo));
@@ -60,19 +65,16 @@ if(bSubmit != null)
             response.sendRedirect("localidade.jsp");
         }
     }
-    if(bSubmit.equals("back")){
-
-        Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
-        if(nPessoa != null){
+    
+}else
+    if(nPessoa != null){
         pCodigo = Integer.toString(nPessoa.getCodigo());
         pNome = nPessoa.getNome();
         pDataNasc = nPessoa.getData_Nascimento().toString();
         pCPF = nPessoa.getCPF();
         pPai = nPessoa.getPai();
         pMae = nPessoa.getMae();
-        }   
-    }
-}
+    }   
 %>
 <!DOCTYPE html>
 <html>
@@ -110,24 +112,24 @@ if(bSubmit != null)
                                     <div class="row">
                                         <div class="form-group col-3">
                                             
-                                          <label for="pCodigo" class="">Codigo</label>
-                                          <input type="number" class="form-control" id="pCodigo" name="pCodigo" value="<%= (pCodigo != null)?pCodigo:"" %>" required >
+                                          <label for="pCodigo" class="">Codigo<label class="text-danger">*</label></label>
+                                          <input type="number" min="0" class="form-control" id="pCodigo" name="pCodigo" value="<%= (pCodigo != null)?pCodigo:"" %>"  required >
                                           
                                         </div>
                                         <div class="form-group col-9">
-                                          <label for="pNome">Nome</label>
+                                          <label for="pNome">Nome<label class="text-danger">*</label></label>
                                           <input type="text" class="form-control" id="pNome" name="pNome" value="<%= (pNome != null)?pNome:"" %>" placeholder="Jose da Silva" required>
                                         </div>
                                         <div class="form-group col-6">
-                                          <label for="pDataNasc" >Data de Nascimento</label>
+                                          <label for="pDataNasc" >Data de Nascimento<label class="text-danger">*</label></label>
                                           <input type="date" class="form-control" id="pDataNasc"  value="<%= (pDataNasc != null)?pDataNasc:"" %>" name="pDataNasc" required>
                                         </div>
                                         <div class="form-group col-6">
-                                          <label for="pCPF" >CPF</label>
+                                          <label for="pCPF" >CPF<label class="text-danger">*</label></label>
                                           <input type="text" class="form-control" id="pCPF" name="pCPF" value="<%= (pCPF != null)?pCPF:"" %>" placeholder="xxx.xxx.xxx-xx" required>
                                         </div>
                                         <div class="form-group col-12">
-                                          <label for="pMae" >Nome da Mãe </label>
+                                          <label for="pMae" >Nome da Mãe<label class="text-danger">*</label></label>
                                           <input type="text" class="form-control" id="pMae" name="pMae" value="<%= (pMae != null)?pMae:"" %>" required placeholder="Maria da Silva">
                                         </div>
                                         <div class="form-group col-12">
@@ -143,9 +145,7 @@ if(bSubmit != null)
                                         </div>
                                     </div>
                                 </div>
-                                <% for(String erro:erros){ %>
-                                    <%= erro %><br/>
-                                <% } %>
+                               
 
                           </form>
                         </div>

@@ -13,12 +13,12 @@ String bairro = request.getParameter("bairro");
 String rua = request.getParameter("rua");
 String numero = request.getParameter("numero");
 
+Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
+
 if(bSubmit != null)
 {
     if(bSubmit.equals("OK"))
     {   
-        Pessoa nPessoa = (Pessoa) session.getAttribute("nPessoa");
-
         if(nPessoa == null)
             erros.add("Não existe a pessoa!");
 
@@ -50,18 +50,20 @@ if(bSubmit != null)
             session.setAttribute("nPessoa", nPessoa);
             response.sendRedirect("confirma.jsp");
         }
-    }
-    if(bSubmit.equals("back") ){
-        response.sendRedirect("Index.jsp");
-    }
-    if(bSubmit.equals("alter")){
-        Pessoa nPessoa = (Pessoa)session.getAttribute("nPessoa");
-
+    }else
+        if(bSubmit.equals("back") ){
+            response.sendRedirect("Index.jsp");
+        }
+}else{
+    if(nPessoa != null){
         estado = nPessoa.getEstado();
         cidade = nPessoa.getCidade();
         bairro = nPessoa.getBairro();
         rua = nPessoa.getRua();
         numero = Integer.toString(nPessoa.getNumeroCasa());
+    }else{
+        response.sendRedirect("Index.jsp");
+        return;
     }
 }
 %>
@@ -101,8 +103,8 @@ if(bSubmit != null)
                                 <div class="container">
                                     <div class="row">
                                         <div class="form-group col-3">
-                                          <label for="estado" >Estado</label>
-                                          <select class="form-control" id="estado" name="estado" value="<%= (estado != null)?estado:"" %>" required>
+                                            <label for="estado" >Estado<label class="text-danger">*</label></label>
+                                          <select class="form-control" id="estado" name="estado" value="<%= (estado != null)?estado:"" %>" >
                                                 <option value="AC">AC</option>
                                                 <option value="AL">AL</option>
                                                 <option value="AM">AM</option>
@@ -133,16 +135,16 @@ if(bSubmit != null)
                                           </select>
                                         </div>
                                         <div class="form-group col-9">
-                                          <label >Cidade</label>
-                                          <input type="text" class="form-control" id="cidade"  name="cidade" placeholder="Presidente Prudente"  value="<%= (cidade != null)?cidade:"" %>" required>
+                                          <label >Cidade<label class="text-danger">*</label></label>
+                                          <input type="text" class="form-control" id="cidade"  name="cidade" placeholder="Presidente Prudente"  value="<%= (cidade != null)?cidade:"" %>" >
                                         </div>
                                         <div class="form-group col-12">
-                                          <label >Bairro</label>
-                                          <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Cidade Universitária" value="<%= (bairro != null)?bairro:"" %>" required>
+                                          <label >Bairro<label class="text-danger">*</label></label>
+                                          <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Cidade Universitária" value="<%= (bairro != null)?bairro:"" %>" >
                                         </div>
                                         <div class="form-group col-9">
-                                          <label>Rua</label>
-                                          <input type="text" class="form-control" id="rua" name="rua" placeholder="Rua José Bongiovani" value="<%= (rua != null)?rua:"" %>" required>
+                                          <label>Rua<label class="text-danger">*</label></label>
+                                          <input type="text" class="form-control" id="rua" name="rua" placeholder="Rua José Bongiovani" value="<%= (rua != null)?rua:"" %>">
                                         </div>
                                         <div class="form-group col-3">
                                           <label >Nº</label>
@@ -150,7 +152,7 @@ if(bSubmit != null)
                                         </div>
                                         
                                         <div class="col-2">
-                                            <button id="bSubmit"  name="bSubmit" type="submit" value="back" class="btn btn-primary mb-2">Cancelar</button>
+                                            <button id="bSubmit"  name="bSubmit" type="submit" value="back" class="btn btn-primary mb-2">Voltar</button>
                                         </div>
                                         <div class="col-7">
                                         </div>

@@ -17,24 +17,21 @@
     if(listap == null)
         response.sendRedirect("Index.jsp");
 
-    //if(bExcluir.equals("OK")){
-
 if(bSubmit != null)
 {
     if(bSubmit.equals("remove")){
         if(indexExcluir != null && !indexExcluir.isEmpty()){
-            listap.remove(indexExcluir); 
+            listap.remove(Integer.parseInt(indexExcluir)); 
             session.setAttribute("listap", listap);
         }
     }
     if(bSubmit.equals("clean")){
-        listap = null;
-        session.setAttribute("listap", listap);
+        session.removeAttribute("listap");
+        session.removeAttribute("nPessoa");
     }
     
     if(bSubmit.equals("new")){
-        nPessoa = new Pessoa();
-        session.setAttribute("nPessoa", nPessoa);
+        session.removeAttribute("nPessoa");
         response.sendRedirect("Index.jsp");
 
     }
@@ -67,7 +64,7 @@ if(bSubmit != null)
                                 </div>
                             </div>
                         </div>  
-                        <form action="fim.jsp">
+                        
                             <div class="panel-body">
                                 <table class="table table-striped">
                                     <thead>
@@ -75,30 +72,39 @@ if(bSubmit != null)
                                         <th scope="col">Código</th>
                                         <th scope="col">Nome</th>
                                         <th scope="col">CPF</th>
+                                        <th scope="col">Residente</th>
+                                        <th scope="col">Endereço</th>
                                         <th scope="col">Ação</th>
                                       </tr>
                                     </thead>
                                     <tbody>
+                                        
+                                        
                                         <%
                                         if(listap != null)
                                         {           
                                             for(Pessoa pessoa : listap)
                                             {
                                             %>
+                                        <form action="fim.jsp">
                                           <tr>
                                             <th scope="row"><%= pessoa.getCodigo()%></th>
                                             <td><%= pessoa.getNome()%></td>
                                             <td><%= pessoa.getCPF()%></td>
+                                            <td><%= pessoa.getCidade()+" - "+pessoa.getEstado()%></td>
+                                            <td><%= pessoa.getRua()+", Nº "+pessoa.getNumeroCasa()%></td>
                                             <td>
                                                 <button id="bSubmit" name="bSubmit" type="submit" class="btn btn-danger" value="remove">Excluir</button> 
                                                 <input type="hidden" id="cod" name="cod"  value="<%= listap.indexOf(pessoa)%>" >
                                             </td>
                                           </tr>
+                                          </form>
                                             <%
                                             }
                                         }%>
                                     </tbody>
                                 </table>
+                                <form action="fim.jsp">
                                 <div class="row">
                                     <div class="col-2 p-3">
                                         <button id="bSubmit"  name="bSubmit" type="submit" value="clean" class="btn btn-warning mb-2">Limpar Tudo</button>
@@ -110,8 +116,9 @@ if(bSubmit != null)
                                         <button id="bSubmit" name="bSubmit" type="submit" value="new" class="btn btn-success mb-2 ">Novo Cadastro</button>
                                     </div>
                                 </div>
+                                </form>
                             </div>
-                        </form>
+                        
                 </div>
             </div>
         </div>
